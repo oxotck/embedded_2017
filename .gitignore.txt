@@ -1,9 +1,0 @@
-Micrium_STM3240G-EVAL_OS2\Micrium\Examples\ST\STM3240G-EVAL\OS2\IAR\FLASH\Obj
-*.o
-*.pdb
-*.xcl
-*.wsdt
-*.crun
-*.dnx
-*.out
-*.map
