@@ -1,10 +1,9 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding=""?>
+
 <Workspace>
     <ConfigDictionary>
-        <CurrentConfigs>
-            <Project>OS2/FLASH</Project>
-        </CurrentConfigs>
-    </ConfigDictionary>
+        
+    <CurrentConfigs/></ConfigDictionary>
     <WindowStorage>
         <ChildIdMap>
             <TB_CMSISPACK>34048</TB_CMSISPACK>
@@ -73,7 +72,7 @@
                 <ColumnWidth0>21</ColumnWidth0>
                 <ColumnWidth1>1361</ColumnWidth1>
                 <FilterLevel>2</FilterLevel>
-                <LiveFile></LiveFile>
+                <LiveFile/>
                 <LiveLogEnabled>0</LiveLogEnabled>
                 <LiveFilterLevel>-1</LiveFilterLevel>
             </IarPane-34056>
@@ -133,7 +132,7 @@
             <BasePane-34050>
                 <IsVisible>0</IsVisible>
             </BasePane-34050>
-            <IarPane-34050 />
+            <IarPane-34050/>
             <Pane--1>
                 <ID>4294967295</ID>
                 <RectRecentFloat>79010000D30000007F020000A9020000</RectRecentFloat>
@@ -215,7 +214,7 @@
             <BasePane-34057>
                 <IsVisible>0</IsVisible>
             </BasePane-34057>
-            <IarPane-34057 />
+            <IarPane-34057/>
             <Pane-34058>
                 <ID>34058</ID>
                 <RectRecentFloat>A4000000BB000000C60100006C010000</RectRecentFloat>
@@ -229,7 +228,7 @@
             <BasePane-34058>
                 <IsVisible>0</IsVisible>
             </BasePane-34058>
-            <IarPane-34058 />
+            <IarPane-34058/>
             <Pane-34059>
                 <ID>34059</ID>
                 <RectRecentFloat>A4000000BB000000C60100006C010000</RectRecentFloat>
@@ -243,7 +242,7 @@
             <BasePane-34059>
                 <IsVisible>0</IsVisible>
             </BasePane-34059>
-            <IarPane-34059 />
+            <IarPane-34059/>
             <Pane-34060>
                 <ID>34060</ID>
                 <RectRecentFloat>A4000000BB000000C60100006C010000</RectRecentFloat>
@@ -257,7 +256,7 @@
             <BasePane-34060>
                 <IsVisible>0</IsVisible>
             </BasePane-34060>
-            <IarPane-34060 />
+            <IarPane-34060/>
             <Pane-34062>
                 <ID>34062</ID>
                 <RectRecentFloat>A4000000BB000000C60100006C010000</RectRecentFloat>
@@ -271,7 +270,7 @@
             <BasePane-34062>
                 <IsVisible>0</IsVisible>
             </BasePane-34062>
-            <IarPane-34062 />
+            <IarPane-34062/>
             <Pane-34052>
                 <ID>34052</ID>
                 <RectRecentFloat>A4000000BB000000240300004C010000</RectRecentFloat>
@@ -285,7 +284,7 @@
             <BasePane-34052>
                 <IsVisible>0</IsVisible>
             </BasePane-34052>
-            <IarPane-34052 />
+            <IarPane-34052/>
             <Pane-34054>
                 <ID>34054</ID>
                 <RectRecentFloat>A4000000BB000000C60100006C010000</RectRecentFloat>
@@ -299,7 +298,7 @@
             <BasePane-34054>
                 <IsVisible>0</IsVisible>
             </BasePane-34054>
-            <IarPane-34054 />
+            <IarPane-34054/>
             <Pane-34055>
                 <ID>34055</ID>
                 <RectRecentFloat>A4000000BB000000C60100006C010000</RectRecentFloat>
@@ -313,7 +312,7 @@
             <BasePane-34055>
                 <IsVisible>0</IsVisible>
             </BasePane-34055>
-            <IarPane-34055 />
+            <IarPane-34055/>
             <Pane-34061>
                 <ID>34061</ID>
                 <RectRecentFloat>A4000000BB000000AA0100001C020000</RectRecentFloat>
@@ -388,4 +387,6 @@
             </MDIClientArea-0>
         </MDIWindows>
     </WindowStorage>
-</Workspace>
+<Desktop><Static><Workspace><ColumnWidths><Column0>124</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths></Workspace></Static><Windows><Wnd0><Tabs><Tab><Identity>TabID-22064-26277</Identity><TabName>Workspace</TabName><Factory>Workspace</Factory><Session><NodeDict/></Session></Tab></Tabs><SelectedTab>0</SelectedTab></Wnd0></Windows><Editor><Pane/><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor><Positions><Top><Row0><Sizes><Toolbar-02D00FB0><key>iaridepm.enu1</key></Toolbar-02D00FB0></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>1312</Bottom><Right>198</Right><x>-2</x><y>-2</y><xscreen>200</xscreen><yscreen>200</yscreen><sizeHorzCX>78125</sizeHorzCX><sizeHorzCY>147384</sizeHorzCY><sizeVertCX>78125</sizeVertCX><sizeVertCY>968312</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes/></Row0></Bottom><Float><Sizes/></Float></Positions></Desktop></Workspace>
+
+
