@@ -63,6 +63,50 @@
 /** 
   * @brief FSMC NORSRAM Configuration Structure definition
   */ 
+   /** 
+  * @brief FSMC NORSRAM Timing parameters structure definition
+  */
+typedef struct
+{
+  uint32_t AddressSetupTime;             /*!< Defines the number of HCLK cycles to configure
+                                              the duration of the address setup time. 
+                                              This parameter can be a value between Min_Data = 0 and Max_Data = 15.
+                                              @note This parameter is not used with synchronous NOR Flash memories.      */
+
+  uint32_t AddressHoldTime;              /*!< Defines the number of HCLK cycles to configure
+                                              the duration of the address hold time.
+                                              This parameter can be a value between Min_Data = 1 and Max_Data = 15. 
+                                              @note This parameter is not used with synchronous NOR Flash memories.      */
+
+  uint32_t DataSetupTime;                /*!< Defines the number of HCLK cycles to configure
+                                              the duration of the data setup time.
+                                              This parameter can be a value between Min_Data = 1 and Max_Data = 255.
+                                              @note This parameter is used for SRAMs, ROMs and asynchronous multiplexed 
+                                              NOR Flash memories.                                                        */
+
+  uint32_t BusTurnAroundDuration;        /*!< Defines the number of HCLK cycles to configure
+                                              the duration of the bus turnaround.
+                                              This parameter can be a value between Min_Data = 0 and Max_Data = 15.
+                                              @note This parameter is only used for multiplexed NOR Flash memories.      */
+
+  uint32_t CLKDivision;                  /*!< Defines the period of CLK clock output signal, expressed in number of 
+                                              HCLK cycles. This parameter can be a value between Min_Data = 2 and Max_Data = 16.
+                                              @note This parameter is not used for asynchronous NOR Flash, SRAM or ROM 
+                                              accesses.                                                                  */
+
+  uint32_t DataLatency;                  /*!< Defines the number of memory clock cycles to issue
+                                              to the memory before getting the first data.
+                                              The parameter value depends on the memory type as shown below:
+                                              - It must be set to 0 in case of a CRAM
+                                              - It is don't care in asynchronous NOR, SRAM or ROM accesses
+                                              - It may assume a value between Min_Data = 2 and Max_Data = 17 in NOR Flash memories
+                                                with synchronous burst mode enable                                       */
+
+  uint32_t AccessMode;                   /*!< Specifies the asynchronous access mode. 
+                                              This parameter can be a value of @ref FSMC_Access_Mode                      */
+
+}FSMC_NORSRAM_TimingTypeDef;
+
 typedef struct
 {
   uint32_t NSBank;                       /*!< Specifies the NORSRAM memory device that will be used.
@@ -112,52 +156,11 @@ typedef struct
 
   uint32_t WriteBurst;                   /*!< Enables or disables the write burst operation.
                                               This parameter can be a value of @ref FSMC_Write_Burst                      */
+  
+  FSMC_NORSRAM_TimingTypeDef* ReadWriteTimingStruct; /*!< Timing Parameters for write and read access if the  ExtendedMode is not used*/  
 
+  FSMC_NORSRAM_TimingTypeDef* WriteTimingStruct;     /*!< Timing Parameters for write access if the  ExtendedMode is used*/      
 }FSMC_NORSRAM_InitTypeDef;
-
-/** 
-  * @brief FSMC NORSRAM Timing parameters structure definition
-  */
-typedef struct
-{
-  uint32_t AddressSetupTime;             /*!< Defines the number of HCLK cycles to configure
-                                              the duration of the address setup time. 
-                                              This parameter can be a value between Min_Data = 0 and Max_Data = 15.
-                                              @note This parameter is not used with synchronous NOR Flash memories.      */
-
-  uint32_t AddressHoldTime;              /*!< Defines the number of HCLK cycles to configure
-                                              the duration of the address hold time.
-                                              This parameter can be a value between Min_Data = 1 and Max_Data = 15. 
-                                              @note This parameter is not used with synchronous NOR Flash memories.      */
-
-  uint32_t DataSetupTime;                /*!< Defines the number of HCLK cycles to configure
-                                              the duration of the data setup time.
-                                              This parameter can be a value between Min_Data = 1 and Max_Data = 255.
-                                              @note This parameter is used for SRAMs, ROMs and asynchronous multiplexed 
-                                              NOR Flash memories.                                                        */
-
-  uint32_t BusTurnAroundDuration;        /*!< Defines the number of HCLK cycles to configure
-                                              the duration of the bus turnaround.
-                                              This parameter can be a value between Min_Data = 0 and Max_Data = 15.
-                                              @note This parameter is only used for multiplexed NOR Flash memories.      */
-
-  uint32_t CLKDivision;                  /*!< Defines the period of CLK clock output signal, expressed in number of 
-                                              HCLK cycles. This parameter can be a value between Min_Data = 2 and Max_Data = 16.
-                                              @note This parameter is not used for asynchronous NOR Flash, SRAM or ROM 
-                                              accesses.                                                                  */
-
-  uint32_t DataLatency;                  /*!< Defines the number of memory clock cycles to issue
-                                              to the memory before getting the first data.
-                                              The parameter value depends on the memory type as shown below:
-                                              - It must be set to 0 in case of a CRAM
-                                              - It is don't care in asynchronous NOR, SRAM or ROM accesses
-                                              - It may assume a value between Min_Data = 2 and Max_Data = 17 in NOR Flash memories
-                                                with synchronous burst mode enable                                       */
-
-  uint32_t AccessMode;                   /*!< Specifies the asynchronous access mode. 
-                                              This parameter can be a value of @ref FSMC_Access_Mode                      */
-
-}FSMC_NORSRAM_TimingTypeDef;
 
 /** 
   * @brief FSMC NAND Configuration Structure definition
@@ -887,6 +890,9 @@ typedef struct
 /** @defgroup FSMC_LL_NORSRAM  NOR SRAM
   *  @{
   */
+void FSMC_NORSRAMCmd(uint32_t FSMC_Bank, FunctionalState NewState);
+void FSMC_NORSRAMInit(FSMC_NORSRAM_InitTypeDef* FSMC_NORSRAMInitStruct);
+void FSMC_NORSRAMDeInit(uint32_t FSMC_Bank);
 
 /** @defgroup FSMC_LL_NORSRAM_Private_Functions_Group1 NOR SRAM Initialization/de-initialization functions 
   *  @{

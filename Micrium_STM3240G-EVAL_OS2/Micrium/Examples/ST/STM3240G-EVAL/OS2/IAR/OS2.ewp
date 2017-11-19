@@ -356,6 +356,7 @@
                     <state>$PROJ_DIR$\..\..\..\..\..\Software\uC-Serial\Line</state>
                     <state>$PROJ_DIR$\..\..\..\..\..\Software\uC-Serial\OS</state>
                     <state>$PROJ_DIR$\..\..\..\..\..\Software\uC-Serial\Source</state>
+                    <state>$PROJ_DIR$\..\..\Camera</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -1112,6 +1113,30 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\BSP\serial_bsp_stm3240x.h</name>
+        </file>
+    </group>
+    <group>
+        <name>CAMERA</name>
+        <file>
+            <name>$PROJ_DIR$\..\..\Camera\camera_api.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Camera\dcmi_ov9655.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Camera\fonts.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Camera\fonts.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Camera\lcd_log.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Camera\stm324xg_eval_ioe.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Camera\stm324xg_eval_lcd.c</name>
         </file>
     </group>
     <group>

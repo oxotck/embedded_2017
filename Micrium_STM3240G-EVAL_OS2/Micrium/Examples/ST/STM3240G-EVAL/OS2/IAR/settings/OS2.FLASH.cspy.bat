@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\GitHub\embedded_2017\Micrium_STM3240G-EVAL_OS2\Micrium\Examples\ST\STM3240G-EVAL\OS2\IAR\settings\OS2.FLASH.general.xcl" --backend -f "C:\GitHub\embedded_2017\Micrium_STM3240G-EVAL_OS2\Micrium\Examples\ST\STM3240G-EVAL\OS2\IAR\settings\OS2.FLASH.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "D:\GIT\embedded_2017\Micrium_STM3240G-EVAL_OS2\Micrium\Examples\ST\STM3240G-EVAL\OS2\IAR\settings\OS2.FLASH.general.xcl" --backend -f "D:\GIT\embedded_2017\Micrium_STM3240G-EVAL_OS2\Micrium\Examples\ST\STM3240G-EVAL\OS2\IAR\settings\OS2.FLASH.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\GitHub\embedded_2017\Micrium_STM3240G-EVAL_OS2\Micrium\Examples\ST\STM3240G-EVAL\OS2\IAR\settings\OS2.FLASH.general.xcl" "--debug_file=%~1" --backend -f "C:\GitHub\embedded_2017\Micrium_STM3240G-EVAL_OS2\Micrium\Examples\ST\STM3240G-EVAL\OS2\IAR\settings\OS2.FLASH.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "D:\GIT\embedded_2017\Micrium_STM3240G-EVAL_OS2\Micrium\Examples\ST\STM3240G-EVAL\OS2\IAR\settings\OS2.FLASH.general.xcl" "--debug_file=%~1" --backend -f "D:\GIT\embedded_2017\Micrium_STM3240G-EVAL_OS2\Micrium\Examples\ST\STM3240G-EVAL\OS2\IAR\settings\OS2.FLASH.driver.xcl" 
 
 @echo off 
 :end

@@ -73,6 +73,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
+#include "gpio_map.h"
 
 /** @addtogroup STM32F4xx_HAL_Driver
   * @{
@@ -231,6 +232,117 @@ HAL_StatusTypeDef FSMC_NORSRAM_DeInit(FSMC_NORSRAM_TypeDef *Device, FSMC_NORSRAM
   return HAL_OK;
 }
 
+void FSMC_NORSRAMCmd(uint32_t FSMC_Bank, FunctionalState NewState)
+{
+  assert_param(IS_FSMC_NORSRAM_BANK(FSMC_Bank));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
+  
+  if (NewState != DISABLE)
+  {
+    /* Enable the selected NOR/SRAM Bank by setting the PBKEN bit in the BCRx register */
+    FSMC_Bank1->BTCR[FSMC_Bank] |= BCR_MBKEN_SET;
+  }
+  else
+  {
+    /* Disable the selected NOR/SRAM Bank by clearing the PBKEN bit in the BCRx register */
+    FSMC_Bank1->BTCR[FSMC_Bank] &= BCR_MBKEN_RESET;
+  }
+}
+
+void FSMC_NORSRAMInit(FSMC_NORSRAM_InitTypeDef* FSMC_NORSRAMInitStruct)
+{ 
+  /* Check the parameters */
+  assert_param(IS_FSMC_NORSRAM_BANK(FSMC_NORSRAMInitStruct->FSMC_Bank));
+  assert_param(IS_FSMC_MUX(FSMC_NORSRAMInitStruct->FSMC_DataAddressMux));
+  assert_param(IS_FSMC_MEMORY(FSMC_NORSRAMInitStruct->FSMC_MemoryType));
+  assert_param(IS_FSMC_MEMORY_WIDTH(FSMC_NORSRAMInitStruct->FSMC_MemoryDataWidth));
+  assert_param(IS_FSMC_BURSTMODE(FSMC_NORSRAMInitStruct->FSMC_BurstAccessMode));
+  assert_param(IS_FSMC_ASYNWAIT(FSMC_NORSRAMInitStruct->FSMC_AsynchronousWait));
+  assert_param(IS_FSMC_WAIT_POLARITY(FSMC_NORSRAMInitStruct->FSMC_WaitSignalPolarity));
+  assert_param(IS_FSMC_WRAP_MODE(FSMC_NORSRAMInitStruct->FSMC_WrapMode));
+  assert_param(IS_FSMC_WAIT_SIGNAL_ACTIVE(FSMC_NORSRAMInitStruct->FSMC_WaitSignalActive));
+  assert_param(IS_FSMC_WRITE_OPERATION(FSMC_NORSRAMInitStruct->FSMC_WriteOperation));
+  assert_param(IS_FSMC_WAITE_SIGNAL(FSMC_NORSRAMInitStruct->FSMC_WaitSignal));
+  assert_param(IS_FSMC_EXTENDED_MODE(FSMC_NORSRAMInitStruct->FSMC_ExtendedMode));
+  assert_param(IS_FSMC_WRITE_BURST(FSMC_NORSRAMInitStruct->FSMC_WriteBurst));  
+  assert_param(IS_FSMC_ADDRESS_SETUP_TIME(FSMC_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_AddressSetupTime));
+  assert_param(IS_FSMC_ADDRESS_HOLD_TIME(FSMC_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_AddressHoldTime));
+  assert_param(IS_FSMC_DATASETUP_TIME(FSMC_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_DataSetupTime));
+  assert_param(IS_FSMC_TURNAROUND_TIME(FSMC_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_BusTurnAroundDuration));
+  assert_param(IS_FSMC_CLK_DIV(FSMC_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_CLKDivision));
+  assert_param(IS_FSMC_DATA_LATENCY(FSMC_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_DataLatency));
+  assert_param(IS_FSMC_ACCESS_MODE(FSMC_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_AccessMode)); 
+  
+  /* Bank1 NOR/SRAM control register configuration */ 
+  FSMC_Bank1->BTCR[FSMC_NORSRAMInitStruct->NSBank] = 
+            (uint32_t)FSMC_NORSRAMInitStruct->DataAddressMux |
+            FSMC_NORSRAMInitStruct->MemoryType |
+            FSMC_NORSRAMInitStruct->MemoryDataWidth |
+            FSMC_NORSRAMInitStruct->BurstAccessMode |
+            FSMC_NORSRAMInitStruct->AsynchronousWait |
+            FSMC_NORSRAMInitStruct->WaitSignalPolarity |
+            FSMC_NORSRAMInitStruct->WrapMode |
+            FSMC_NORSRAMInitStruct->WaitSignalActive |
+            FSMC_NORSRAMInitStruct->WriteOperation |
+            FSMC_NORSRAMInitStruct->WaitSignal |
+            FSMC_NORSRAMInitStruct->ExtendedMode |
+            FSMC_NORSRAMInitStruct->WriteBurst;
+  if(FSMC_NORSRAMInitStruct->MemoryType == FSMC_MEMORY_TYPE_NOR)
+  {
+    FSMC_Bank1->BTCR[FSMC_NORSRAMInitStruct->NSBank] |= (uint32_t)BCR_FACCEN_SET;
+  }
+  /* Bank1 NOR/SRAM timing register configuration */
+  FSMC_Bank1->BTCR[FSMC_NORSRAMInitStruct->NSBank+1] = 
+            (uint32_t)FSMC_NORSRAMInitStruct->ReadWriteTimingStruct->AddressSetupTime |
+            (FSMC_NORSRAMInitStruct->ReadWriteTimingStruct->AddressHoldTime << 4) |
+            (FSMC_NORSRAMInitStruct->ReadWriteTimingStruct->DataSetupTime << 8) |
+            (FSMC_NORSRAMInitStruct->ReadWriteTimingStruct->BusTurnAroundDuration << 16) |
+            (FSMC_NORSRAMInitStruct->ReadWriteTimingStruct->CLKDivision << 20) |
+            (FSMC_NORSRAMInitStruct->ReadWriteTimingStruct->DataLatency << 24) |
+             FSMC_NORSRAMInitStruct->ReadWriteTimingStruct->AccessMode;
+            
+    
+  /* Bank1 NOR/SRAM timing register for write configuration, if extended mode is used */
+  if(FSMC_NORSRAMInitStruct->ExtendedMode == FSMC_EXTENDED_MODE_ENABLE)
+  {
+    assert_param(IS_FSMC_ADDRESS_SETUP_TIME(FSMC_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_AddressSetupTime));
+    assert_param(IS_FSMC_ADDRESS_HOLD_TIME(FSMC_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_AddressHoldTime));
+    assert_param(IS_FSMC_DATASETUP_TIME(FSMC_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_DataSetupTime));
+    assert_param(IS_FSMC_CLK_DIV(FSMC_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_CLKDivision));
+    assert_param(IS_FSMC_DATA_LATENCY(FSMC_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_DataLatency));
+    assert_param(IS_FSMC_ACCESS_MODE(FSMC_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_AccessMode));
+    FSMC_Bank1E->BWTR[FSMC_NORSRAMInitStruct->NSBank] = 
+              (uint32_t)FSMC_NORSRAMInitStruct->WriteTimingStruct->AddressSetupTime |
+              (FSMC_NORSRAMInitStruct->WriteTimingStruct->AddressHoldTime << 4 )|
+              (FSMC_NORSRAMInitStruct->WriteTimingStruct->DataSetupTime << 8) |
+              (FSMC_NORSRAMInitStruct->WriteTimingStruct->CLKDivision << 20) |
+              (FSMC_NORSRAMInitStruct->WriteTimingStruct->DataLatency << 24) |
+               FSMC_NORSRAMInitStruct->WriteTimingStruct->AccessMode;
+  }
+  else
+  {
+    FSMC_Bank1E->BWTR[FSMC_NORSRAMInitStruct->NSBank] = 0x0FFFFFFF;
+  }
+}
+
+void FSMC_NORSRAMDeInit(uint32_t FSMC_Bank)
+{
+  /* Check the parameter */
+  assert_param(IS_FSMC_NORSRAM_BANK(FSMC_Bank));
+  
+  /* FSMC_Bank1_NORSRAM1 */
+  if(FSMC_Bank == FSMC_NORSRAM_BANK1)
+  {
+    FSMC_Bank1->BTCR[FSMC_Bank] = 0x000030DB;    
+  }
+  /* FSMC_Bank1_NORSRAM2,  FSMC_Bank1_NORSRAM3 or FSMC_Bank1_NORSRAM4 */
+  else
+  {   
+    FSMC_Bank1->BTCR[FSMC_Bank] = 0x000030D2; 
+  }
+  FSMC_Bank1->BTCR[FSMC_Bank + 1] = 0x0FFFFFFF;
+  FSMC_Bank1E->BWTR[FSMC_Bank] = 0x0FFFFFFF;  
+}
 
 /**
   * @brief  Initialize the FSMC_NORSRAM Timing according to the specified

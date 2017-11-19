@@ -1358,6 +1358,9 @@ uint32_t HAL_RCC_GetPCLK2Freq(void);
 void     HAL_RCC_GetOscConfig(RCC_OscInitTypeDef *RCC_OscInitStruct);
 void     HAL_RCC_GetClockConfig(RCC_ClkInitTypeDef *RCC_ClkInitStruct, uint32_t *pFLatency);
 
+void RCC_AHB1PeriphClockCmd(uint32_t RCC_AHB1Periph, FunctionalState NewState);
+void RCC_AHB3PeriphClockCmd(uint32_t RCC_AHB3Periph, FunctionalState NewState);
+
 /* CSS NMI IRQ handler */
 void HAL_RCC_NMI_IRQHandler(void);
 
