@@ -39,6 +39,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm324xg_eval_ioe.h"
+#include "gpio_map.h"
 
 /** @addtogroup Utilities
   * @{
@@ -139,14 +140,10 @@ uint8_t IOE_Config(void)
   {
     return IOE1_NOT_OPERATIONAL;
   }
-//  if(IOE_IsOperational(IOE_2_ADDR))
-//  {
-//    return IOE2_NOT_OPERATIONAL;
-//  }
+
   
   /* Generate IOExpander Software reset */
   IOE_Reset(IOE_1_ADDR); 
-//  IOE_Reset(IOE_2_ADDR);
   
   /* ---------------------- IO Expander 1 configuration --------------------- */
   /* Enable the GPIO, Touch Screen and ADC functionalities */
@@ -155,47 +152,10 @@ uint8_t IOE_Config(void)
   IOE_IOPinConfig(IOE_1_ADDR, VBAT_DIV_PIN , Direction_OUT);  
   /* ENABLE the alternate function for IN1 pin */
   IOE_IOAFConfig(IOE_1_ADDR, VBAT_DIV_PIN, ENABLE);
-  
-//  /* Apply the default state for the out pins */
-//  IOE_WriteIOPin(VBAT_DIV_PIN, BitReset);
-//  /* Configure the MEMS interrupt pins in Input mode */
-//  IOE_IOPinConfig(IOE_2_ADDR, (uint32_t)(MEMS_INT1_PIN | MEMS_INT2_PIN), Direction_IN); 
-  
-//  /* ENABLE the alternate function for the Joystick pins */
-//  IOE_IOAFConfig(IOE_2_ADDR, (uint32_t)(MEMS_INT1_PIN | MEMS_INT2_PIN), ENABLE);
-//  /* Configure the IOs to detect Falling and Rising Edges */
-//  IOE_IOEdgeConfig(IOE_2_ADDR, (uint32_t)(MEMS_INT1_PIN | MEMS_INT2_PIN), (uint32_t)(EDGE_FALLING | EDGE_RISING));
   /* Touch Screen controller configuration */
   IOE_TS_Config();
   
   /* ------------------------------------------------------------------------ */
-  
-  /* ---------------------- IO Expander 2 configuration --------------------- */
-  /* Enable the GPIO, Temperature Sensor and ADC functionalities */
-//  IOE_FnctCmd(IOE_2_ADDR, IOE_IO_FCT | IOE_TEMPSENS_FCT | IOE_ADC_FCT, ENABLE);
-//  
-//  /* Configure the Audio Codec Reset pin in output mode pin*/
-//  IOE_IOPinConfig(IOE_2_ADDR, (uint32_t)(AUDIO_RESET_PIN), Direction_OUT);
-//  IOE_IOPinConfig(IOE_2_ADDR, (uint32_t)(MII_INT_PIN), Direction_IN);
-//      
-//  /* ENABLE the alternate function for IN1 pin */
-//  IOE_IOAFConfig(IOE_2_ADDR, (uint32_t)(AUDIO_RESET_PIN | MII_INT_PIN), ENABLE);
-//    
-//  /* Apply the default state for the out pins */
-//  IOE_WriteIOPin(AUDIO_RESET_PIN, BitReset);
-//  IOE_WriteIOPin(MII_INT_PIN, BitReset);
-//  /* Configure the Joystick pins in Input mode */
-//  IOE_IOPinConfig(IOE_2_ADDR, JOY_IO_PINS , Direction_IN); 
-//  
-//  /* ENABLE the alternate function for the Joystick pins */
-//  IOE_IOAFConfig(IOE_2_ADDR, JOY_IO_PINS, ENABLE);
-//  /* Configure the IOs to detect Falling and Rising Edges */
-//  IOE_IOEdgeConfig(IOE_2_ADDR, JOY_IO_PINS, (uint8_t)(EDGE_FALLING | EDGE_RISING));
-//  
-//  /* Temperature Sensor module configuration */
-//  IOE_TempSens_Config();
-  /* ------------------------------------------------------------------------ */
-  
   /* Configuration is OK */
   return IOE_OK; 
 }
@@ -1039,6 +999,7 @@ uint8_t IOE_ITOutConfig(uint8_t Polarity, uint8_t Type)
   * @param  RegisterValue: The target register value to be written 
   * @retval IOE_OK: if all operations are OK. Other value if error.
   */
+#if 0
 uint8_t I2C_WriteDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr, uint8_t RegisterValue)
 {
   uint32_t read_verif = 0;  
@@ -1132,7 +1093,12 @@ uint8_t I2C_WriteDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr, uint8_
   /* Return the verifying value: 0 (Passed) or 1 (Failed) */
   return read_verif;
 }
-
+#else
+uint8_t I2C_WriteDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr, uint8_t RegisterValue)
+{
+  HAL_I2C_Master_Transmit_DMA(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint8_t *pData, uint16_t Size)
+}
+#endif
 /**
   * @brief  Reads a register of the device through I2C.
   * @param  DeviceAddr: The address of the device, could be : IOE_1_ADDR
@@ -1140,6 +1106,8 @@ uint8_t I2C_WriteDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr, uint8_
   * @param  RegisterAddr: The target register address (between 00x and 0x24)
   * @retval The value of the read register (0xAA if Timeout occurred)   
   */
+
+#if 0
 uint8_t I2C_ReadDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr)
 {
   uint8_t IOE_BufferRX[2] = {0x00, 0x00};  
@@ -1228,7 +1196,11 @@ uint8_t I2C_ReadDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr)
   /* return a pointer to the IOE_Buffer */
   return (uint8_t)IOE_BufferRX[0];
 }
-
+#else
+uint8_t I2C_ReadDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr)
+{
+}
+#endif
 
 /**
   * @brief  Reads a buffer of 2 bytes from the device registers.
@@ -1412,24 +1384,24 @@ static void IOE_GPIO_Config(void)
   RCC_APB1PeriphResetCmd(IOE_I2C_CLK, DISABLE);
   
   /* IOE_I2C SCL and SDA pins configuration */
-  GPIO_InitStructure.GPIO_Pin = IOE_I2C_SCL_PIN;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
-  GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
-  GPIO_Init(IOE_I2C_SCL_GPIO_PORT, &GPIO_InitStructure);
+  GPIO_InitStructure.Pin = IOE_I2C_SCL_PIN;
+  GPIO_InitStructure.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStructure.Speed = GPIO_SPEED_FAST;
+  GPIO_InitStructure.Pull = GPIO_NOPULL;
+  
+  HAL_GPIO_Init(IOE_I2C_SCL_GPIO_PORT, &GPIO_InitStructure);
 
-  GPIO_InitStructure.GPIO_Pin = IOE_I2C_SDA_PIN;
-  GPIO_Init(IOE_I2C_SDA_GPIO_PORT, &GPIO_InitStructure);
+  GPIO_InitStructure.Pin = IOE_I2C_SDA_PIN;
+  HAL_GPIO_Init(IOE_I2C_SDA_GPIO_PORT, &GPIO_InitStructure);
   
   GPIO_PinAFConfig(IOE_I2C_SCL_GPIO_PORT, IOE_I2C_SCL_SOURCE, IOE_I2C_SCL_AF);
   GPIO_PinAFConfig(IOE_I2C_SDA_GPIO_PORT, IOE_I2C_SDA_SOURCE, IOE_I2C_SDA_AF);  
   
   /* Set EXTI pin as Input PullUp - IO_Expander_INT */
-  GPIO_InitStructure.GPIO_Pin = IOE_IT_PIN;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-  GPIO_Init(IOE_IT_GPIO_PORT, &GPIO_InitStructure);  
+  GPIO_InitStructure.Pin = IOE_IT_PIN;
+  GPIO_InitStructure.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStructure.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(IOE_IT_GPIO_PORT, &GPIO_InitStructure);  
   
   /* Connect Button EXTI Line to Button GPIO Pin */
   SYSCFG_EXTILineConfig(IOE_IT_EXTI_PORT_SOURCE, IOE_IT_EXTI_PIN_SOURCE);  
@@ -1440,6 +1412,7 @@ static void IOE_GPIO_Config(void)
   * @param  None
   * @retval None
   */
+#if 0
 static void IOE_I2C_Config(void)
 {
   I2C_InitTypeDef I2C_InitStructure;
@@ -1454,13 +1427,33 @@ static void IOE_I2C_Config(void)
   
   I2C_Init(IOE_I2C, &I2C_InitStructure);
 }
+#else
+static void IOE_I2C_Config(void)
+{
+  I2C_HandleTypeDef I2C_HandleStructure;
+  
+  I2C_HandleStructure.Instance = I2C1;
+  
+  I2C_HandleStructure.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  I2C_HandleStructure.Init.OwnAddress1 = 0x00;
+  I2C_HandleStructure.Init.OwnAddress2 = 0x00;
+  I2C_HandleStructure.Init.ClockSpeed = I2C_SPEED_STANDARD(8000000, 10000);
+  I2C_HandleStructure.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  I2C_HandleStructure.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  I2C_HandleStructure.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  I2C_HandleStructure.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  
+  HAL_I2C_Init(&I2C_HandleStructure);
+  
+}
+#endif
 
 /**
   * @brief  Configure the DMA Peripheral used to handle communication via I2C.
   * @param  None
   * @retval None
   */
-
+#if 0
 static void IOE_DMA_Config(IOE_DMADirection_TypeDef Direction, uint8_t* buffer)
 {
   DMA_InitTypeDef DMA_InitStructure;
@@ -1533,13 +1526,14 @@ static void IOE_DMA_Config(IOE_DMADirection_TypeDef Direction, uint8_t* buffer)
     DMA_Init(IOE_DMA_TX_STREAM, &DMA_InitStructure);
   }
 }
-
+#endif
 
 /**
   * @brief  Configures the IO expander Interrupt line and GPIO in EXTI mode.
   * @param  None        
   * @retval None
   */
+#if 0
 static void IOE_EXTI_Config(void)
 {
   GPIO_InitTypeDef GPIO_InitStructure;
@@ -1573,7 +1567,7 @@ static void IOE_EXTI_Config(void)
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
 }
-
+#endif
 #ifndef USE_Delay
 /**
   * @brief  Inserts a delay time.

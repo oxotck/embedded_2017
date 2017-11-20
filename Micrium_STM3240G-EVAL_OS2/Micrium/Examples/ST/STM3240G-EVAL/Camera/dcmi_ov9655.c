@@ -389,13 +389,13 @@ void OV9655_HW_Init(void)
   
   /* DCMI GPIO configuration */
   /* D0..D4(PH9/10/11/12/14), HSYNC(PH8) */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11 |
+  GPIO_InitStructure.Pin = GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11 |
                                 GPIO_Pin_12 | GPIO_Pin_14| GPIO_Pin_8;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-  GPIO_Init(GPIOH, &GPIO_InitStructure);
+  GPIO_InitStructure.Mode = GPIO_Mode_AF_PP;
+  GPIO_InitStructure.Speed = GPIO_Speed_100MHz;
+  //GPIO_InitStructure.OType = GPIO_OType_PP;
+  HAL_GPIO_InitStructure.PuPd = GPIO_PuPd_UP;
+  HAL_GPIO_Init(GPIOH, &GPIO_InitStructure);
 
   /* D5..D7(PI4/6/7), VSYNC(PI5) */
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_6 | GPIO_Pin_7 | GPIO_Pin_5;

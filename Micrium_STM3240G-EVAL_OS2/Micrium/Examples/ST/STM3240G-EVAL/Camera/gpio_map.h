@@ -73,3 +73,7 @@
 #define BCR_MBKEN_SET          ((uint32_t)0x00000001)
 #define BCR_MBKEN_RESET        ((uint32_t)0x000FFFFE)
 #define BCR_FACCEN_SET         ((uint32_t)0x00000040)
+
+#define GPIO_AF_I2C1          ((uint8_t)0x04)  /* I2C1 Alternate Function mapping */
+#define GPIO_AF_I2C2          ((uint8_t)0x04)  /* I2C2 Alternate Function mapping */
+#define GPIO_AF_I2C3          ((uint8_t)0x04)  /* I2C3 Alternate Function mapping */
